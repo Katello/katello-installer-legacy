@@ -17,7 +17,7 @@
 %endif
 
 Name:           katello-configure
-Version:        1.4.1
+Version:        1.4.2
 Release:        1%{?dist}
 Summary:        Configuration tool for Katello
 
@@ -141,6 +141,22 @@ chmod +x -R %{buildroot}%{homedir}/upgrade-scripts/*
 %{homedir}/puppet/modules/foreman
 
 %changelog
+* Sat Apr 27 2013 Mike McCune <mmccune@redhat.com> 1.4.2-1
+- adding rel-eng dir for new location (mmccune@redhat.com)
+- Adding License to new repository. (ehelms@redhat.com)
+- fixing issue where scl was used even in fedora (jsherril@redhat.com)
+- treat CentOS like RHEL, otherwise the install fails (mmccune@redhat.com)
+- fixing path to rails script (jsherril@redhat.com)
+- using our rails script for upgrade runners (jsherril@redhat.com)
+- moving to /usr/share/katello/ before each upgrade script
+  (jsherril@redhat.com)
+- reordering upgrade scritps and converting ruby scripts to runner
+  (jsherril@redhat.com)
+- adding support for runner scripts for katello upgrade (jsherril@redhat.com)
+- deleting all existing task statuses as part of 1.3 upgrade
+  (jsherril@redhat.com)
+- 1861 - don't use waitretry as it backs off and causes multi-minute waits
+  (mmccune@redhat.com)
 * Fri Apr 12 2013 Justin Sherrill <jsherril@redhat.com> 1.4.1-1
 - version bump to 1.4 (jsherril@redhat.com)
 
