@@ -72,6 +72,9 @@ class foreman::config {
       mode    => "644";
 
     "/etc/httpd/conf.d/foreman.conf":
+      ensure    => absent;
+
+    "/etc/httpd/conf.d/katello.d/foreman.conf":
       content => template("foreman/httpd.conf.erb"),
       owner   => $foreman::user,
       group   => $foreman::user,
@@ -96,7 +99,8 @@ class foreman::config {
                               -k oauth_consumer_key -v '${foreman::oauth_consumer_key}'\
                               -k oauth_consumer_secret -v '${foreman::oauth_consumer_secret}'\
                               -k oauth_map_users -v '${foreman::oauth_map_users}'\
-                              -k administrator -v '${foreman::administrator}'"
+                              -k administrator -v '${foreman::administrator}'\
+                              -k signo_sso -v true"
 
   exec {"foreman_migrate_db":
     cwd         => $foreman::app_root,
@@ -121,7 +125,7 @@ class foreman::config {
   }
 
   if $foreman::reset_data == 'YES' {
-   exec {"reset_foreman_db":
+    exec {"reset_foreman_db":
       command => "rm -f /var/lib/katello/foreman_db_migrate_done; if service foreman status ; then /usr/sbin/service-wait foreman stop; else true; fi",
       path    => "/sbin:/bin:/usr/bin",
       before  => Exec["foreman_migrate_db"],
