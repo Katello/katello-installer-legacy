@@ -53,6 +53,7 @@ Summary:        install and configure Foreman on the same machine
 Requires:       foreman
 Requires:       foreman-postgresql
 Requires:       %{?scl_prefix}rubygem(foreman-katello-engine)
+Requires:       %{?scl_prefix}rubygem(katello-foreman-engine)
 
 %description foreman
 Install and configure Foreman on the same machine. With this subpackage installed,
