@@ -1,0 +1,19 @@
+<Proxy balancer://foreman-thin-unattended-servers>
+  <%- scope.lookupvar("foreman::thin_process_count").to_i.times do |i| -%>
+    <%= "BalancerMember http://127.0.0.1:#{scope.lookupvar('foreman::thin_start_port').to_i + i}/#{scope.lookupvar('foreman::deployment_url')}/unattended" %>
+  <%- end -%>
+</Proxy>
+
+# Allow http for unattended path (for anaconda etc.)
+<Location /foreman/unattended>
+  ProxyPass balancer://foreman-thin-unattended-servers
+  ProxyPassReverse balancer://foreman-thin-unattended-servers
+</Location>
+
+# Redirecto to https version otherwise
+<LocationMatch /foreman(?!/unattended)>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule /(.*)$ https://%{HTTP_HOST}%{REQUEST_URI}
+</LocationMatch>
+
