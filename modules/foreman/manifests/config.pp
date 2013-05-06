@@ -83,12 +83,20 @@ class foreman::config {
       before  => Class["apache2::service"];
   }
 
+  $foreman_token_file = "${foreman::app_root}/config/initializers/local_secret_token.rb"
   exec {"generate_token":
     cwd         => $foreman::app_root,
     environment => ["RAILS_ENV=${foreman::environment}", "BUNDLER_EXT_NOSTRICT=1"],
     command     => "/usr/bin/${katello::params::scl_prefix}rake security:generate_token",
     path        => "/bin:/usr/bin",
-    creates     => "${foreman::app_root}/config/initializers/local_secret_token.rb",
+    creates     => $foreman_token_file,
+    user        => $foreman::user,
+  } ~>
+
+  file {"${foreman_token_file}":
+    owner   => $foreman::user,
+    group   => $foreman::group,
+    mode    => 640;
   }
 
   $foreman_config_cmd = "/usr/bin/${katello::params::scl_prefix}ruby ${foreman::app_root}/script/foreman-config -k oauth_active -v '${foreman::oauth_active}'\
@@ -105,9 +113,10 @@ class foreman::config {
   exec {"foreman_migrate_db":
     cwd         => $foreman::app_root,
     environment => ["RAILS_ENV=${foreman::environment}", "BUNDLER_EXT_NOSTRICT=1"],
-    command     => "/usr/bin/${katello::params::scl_prefix}rake db:migrate --trace --verbose > ${foreman::configure_log_base}/foreman-db-migrate.log 2>&1 && touch /var/lib/katello/foreman_db_migrate_done",
+    command     => "/usr/bin/${katello::params::scl_prefix}rake db:migrate --trace --verbose && touch /var/lib/foreman/foreman_db_migrate_done",
     path        => "/sbin:/usr/sbin:/bin:/usr/bin",
-    creates     => "/var/lib/katello/foreman_db_migrate_done",
+    creates     => "/var/lib/foreman/foreman_db_migrate_done",
+    user        => $foreman::user,
     require     => [ Postgres::Createdb[$foreman::db_name],
                  File["${foreman::log_base}/production.log"],
                  File["${foreman::config_dir}/settings.yaml"],
