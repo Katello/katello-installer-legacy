@@ -75,7 +75,15 @@ class foreman::config {
       ensure    => absent;
 
     "/etc/httpd/conf.d/katello.d/foreman.conf":
-      content => template("foreman/httpd.conf.erb"),
+      content => template("foreman/foreman_https.conf.erb"),
+      owner   => $foreman::user,
+      group   => $foreman::user,
+      mode    => "600",
+      notify  => Exec["reload-apache2"],
+      before  => Class["apache2::service"];
+
+    "/etc/httpd/conf.d/foreman_http.conf":
+      content => template("foreman/foreman_http.conf.erb"),
       owner   => $foreman::user,
       group   => $foreman::user,
       mode    => "600",
