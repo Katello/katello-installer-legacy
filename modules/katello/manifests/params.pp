@@ -36,6 +36,15 @@ class katello::params {
       }
   }
 
+  case $deployment {
+    'katello': {
+      $use_sso = true
+    }
+    'headpin': {
+      $use_sso = false
+    }
+  }
+
   # HTTP Proxy settings (currently used by pulp)
   $proxy_url = katello_config_value('proxy_url')
   $proxy_port = katello_config_value('proxy_port')
