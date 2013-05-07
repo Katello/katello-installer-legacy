@@ -90,7 +90,6 @@ class foreman::config {
     command     => "/usr/bin/${katello::params::scl_prefix}rake security:generate_token",
     path        => "/bin:/usr/bin",
     creates     => $foreman_token_file,
-    user        => $foreman::user,
   } ~>
 
   file {"${foreman_token_file}":
