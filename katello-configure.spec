@@ -17,7 +17,7 @@
 %endif
 
 Name:           katello-configure
-Version:        1.4.2
+Version:        1.4.3
 Release:        1%{?dist}
 Summary:        Configuration tool for Katello
 
@@ -142,6 +142,19 @@ chmod +x -R %{buildroot}%{homedir}/upgrade-scripts/*
 %{homedir}/puppet/modules/foreman
 
 %changelog
+* Tue May 07 2013 Mike McCune <mmccune@redhat.com> 1.4.3-1
+- Add katello-foreman integration part (necasik@gmail.com)
+- Run token generating under root (mhulan@redhat.com)
+- Allow http for foreman in case of unattended installation (necasik@gmail.com)
+- Run foreman tasks under foreman user (mhulan@redhat.com)
+- workaround that "tito tag" does not create correct path in metadata file if
+  package is in git-root (msuchy@redhat.com)
+- another workaround that "tito tag" does not create correct path in metadata
+  file if package is in git-root (msuchy@redhat.com)
+- copy nightly scripts from katello.git (msuchy@redhat.com)
+- Install Signo by katello-configure (ares@igloonet.cz)
+- Katello configure support for Signo (ares@igloonet.cz)
+
 * Sat Apr 27 2013 Mike McCune <mmccune@redhat.com> 1.4.2-1
 - adding rel-eng dir for new location (mmccune@redhat.com)
 - Adding License to new repository. (ehelms@redhat.com)
