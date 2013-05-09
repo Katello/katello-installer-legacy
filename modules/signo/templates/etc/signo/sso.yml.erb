@@ -24,7 +24,7 @@
 #     - katello
     :katello:
       # on which url we should authenticate users against katello
-      :url: https://<%= scope.lookupvar('fqdn') -%>/katello/authenticate
+      :url: https://<%= scope.lookupvar('fqdn') -%>/<%= scope.lookupvar('katello::params::deployment') -%>/authenticate
 #    :ldap:
 #      host: localhost
 #      port: 389
