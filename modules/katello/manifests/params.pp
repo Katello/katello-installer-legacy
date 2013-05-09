@@ -113,8 +113,8 @@ class katello::params {
 
   # Subsystems settings
   $candlepin_url = "https://localhost:8443/candlepin"
-  $pulp_url      = katello_pulp_url()
-  $foreman_url   = "https://localhost/foreman"
+  $pulp_url      = katello_subsystem_url("pulp/api/v2/")
+  $foreman_url   = katello_subsystem_url("foreman")
 
   # database reinitialization flag
   $reset_data = katello_config_value('reset_data')
