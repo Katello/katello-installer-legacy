@@ -128,7 +128,7 @@ class certs::config {
     command => "rpm -qp /root/ssl-build/$(grep $candlepin_cert_name.*noarch.rpm /root/ssl-build/latest.txt) | xargs rpm -q; if [ $? -ne 0 ]; then rpm -Uvh --force /root/ssl-build/$(grep noarch.rpm /root/ssl-build/latest.txt); fi",
     path => "/bin:/usr/bin",
     creates => "$candlepin_pub_cert",
-    require => [File["${katello_www_pub_dir}/${candlepin_cert_name}-consumer-latest.noarch.rpm"]],
+    require => [File["${katello_www_pub_dir}/${candlepin_cert_name}-consumer-latest.noarch.rpm"],
     before => Class["apache2::service"]
   }
 
