@@ -4,6 +4,7 @@ class signo::config {
     content => template("signo/etc/signo/sso.yml.erb"),
     owner   => "root",
     group   => "root",
-    mode    => "644"
+    mode    => "644",
+    notify  => Service["signo"]
   }
 }
