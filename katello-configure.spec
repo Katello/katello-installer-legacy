@@ -35,7 +35,7 @@ Requires:       openssl
 Requires:       policycoreutils-python
 Requires:       initscripts
 Requires:       libselinux-ruby
-Requires:       rubygem(rake)
+Requires:       %{?scl_prefix}rubygem(rake)
 Requires:       rubygem(ruby-progressbar)
 BuildRequires:  /usr/bin/pod2man /usr/bin/erb
 BuildRequires:  findutils puppet >= 2.6.6
