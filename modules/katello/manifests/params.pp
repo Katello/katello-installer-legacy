@@ -19,9 +19,6 @@ class katello::params {
   $deployment_url = katello_config_value('deployment')
 
   case $deployment_url {
-      'cfse': {
-        $deployment = 'katello' 
-      }
       'katello': {
         $deployment = 'katello' 
       }

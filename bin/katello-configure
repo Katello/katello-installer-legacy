@@ -148,8 +148,8 @@ end
 
 # Set the deployment to be the relative url
 url_root = $final_options['deployment'].nil? ? $default_options['deployment'] : $final_options['deployment']
-# Don't let a headpin user install in katello/cfse mode
-if url_root == 'katello' || url_root == 'cfse'
+# Don't let a headpin user install in katello mode
+if url_root == 'katello'
   if %x[rpm -qa katello-headpin] != ''
     $stderr.puts "You have attempted to set up #{url_root} with katello-headpin installed."
     $stderr.puts "Please consult the documentation or use a valid --deployment flag."
