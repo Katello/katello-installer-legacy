@@ -36,8 +36,9 @@ Requires:       policycoreutils-python
 Requires:       initscripts
 Requires:       libselinux-ruby
 Requires:       %{?scl_prefix}rubygem(rake)
-Requires:       rubygem(ruby-progressbar)
-BuildRequires:  /usr/bin/pod2man /usr/bin/erb
+Requires:       %{?scl_prefix}rubygem(ruby-progressbar)
+BuildRequires:  %{?scl_prefix}ruby(abi) = 1.9.1
+BuildRequires:  /usr/bin/pod2man
 BuildRequires:  findutils puppet >= 2.6.6
 BuildRequires:  sed
 
@@ -77,7 +78,11 @@ running katello-configure will configure the Foreman as well.
     %endif
 
     #check for puppet erb syntax errors
-    find modules/ -name \*erb | xargs aux/check_erb
+    %if %{?scl:1}%{!?scl:0}
+        find modules/ -name \*erb | xargs aux/scl_check_erb
+    %else
+        find modules/ -name \*erb | xargs aux/check_erb
+    %endif 
 %endif
 
 # README is development (git) only
