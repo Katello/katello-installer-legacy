@@ -206,7 +206,8 @@ puts 'Starting Katello configuration'
 create_answer_file(result_config_path, $final_options, $default_options_order, $titles)
 
 # additional temporary file which is also used (but deleted afterwards)
-temp_config_path = create_temp_config_file($temp_options)
+temp_file = create_temp_config_file($temp_options)
+temp_config_path = temp_file.path 
 
 now = Time.now.strftime("%Y%m%d-%H%M%S")
 log_directory = log_parent_directory + '/katello-configure-' + now
