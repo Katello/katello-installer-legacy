@@ -39,7 +39,7 @@ Requires:       %{?scl_prefix}rubygem(rake)
 Requires:       %{?scl_prefix}rubygem(ruby-progressbar)
 BuildRequires:  %{?scl_prefix}ruby(abi) = 1.9.1
 BuildRequires:  /usr/bin/pod2man
-BuildRequires:  findutils puppet >= 2.6.6
+BuildRequires:  findutils %{?scl_prefix}puppet >= 2.6.6
 BuildRequires:  sed
 
 BuildArch: noarch
