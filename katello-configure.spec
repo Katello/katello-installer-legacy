@@ -26,7 +26,7 @@ License:        GPLv2
 URL:            http://www.katello.org
 Source0:        https://fedorahosted.org/releases/k/a/katello/%{name}-%{version}.tar.gz
 
-Requires:       puppet >= 2.6.6
+Requires:       %{?scl_prefix}puppet >= 2.6.6
 Requires:       coreutils
 Requires:       wget
 Requires:       katello-certs-tools
