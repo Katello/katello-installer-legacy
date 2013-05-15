@@ -14,6 +14,9 @@
 %global homedir %{_datarootdir}/katello/install
 %if "%{?scl}" == "ruby193"
     %global scl_prefix %{scl}-
+    %global scl_ruby /usr/bin/ruby193-ruby
+%else
+    %global scl_ruby /usr/bin/ruby
 %endif
 
 Name:           katello-configure
@@ -66,7 +69,7 @@ running katello-configure will configure the Foreman as well.
 %build
 %if ! 0%{?fastbuild:1}
     #check syntax of main configure script and libs
-    ruby -c bin/* lib/puppet/parser/functions/*rb
+    %{scl_ruby} -c bin/* lib/puppet/parser/functions/*rb
 
     #check syntax for all puppet scripts
     %if 0%{?rhel} || 0%{?fedora} < 17
