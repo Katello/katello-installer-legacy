@@ -45,7 +45,7 @@ candlepin_db_password = candlepin
 # Candlepin database name
 candlepin_db_name = candlepin
 
-# Deployment type (one of "katello", "headpin", "cfse", "sam")
+# Deployment type (one of "katello", "headpin", "sam")
 deployment = katello
 
 # Non-interactive installer mode
