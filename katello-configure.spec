@@ -14,6 +14,11 @@
 %global homedir %{_datarootdir}/katello/install
 %if "%{?scl}" == "ruby193"
     %global scl_prefix %{scl}-
+    %global scl_ruby /usr/bin/ruby193-ruby
+    %global scl_puppet /usr/bin/ruby193-puppet
+%else
+    %global scl_ruby /usr/bin/ruby
+    %global scl_puppet /usr/bin/puppet
 %endif
 
 Name:           katello-configure
@@ -26,7 +31,7 @@ License:        GPLv2
 URL:            http://www.katello.org
 Source0:        https://fedorahosted.org/releases/k/a/katello/%{name}-%{version}.tar.gz
 
-Requires:       puppet >= 2.6.6
+Requires:       %{?scl_prefix}puppet >= 2.6.6
 Requires:       coreutils
 Requires:       wget
 Requires:       katello-certs-tools
@@ -36,9 +41,10 @@ Requires:       policycoreutils-python
 Requires:       initscripts
 Requires:       libselinux-ruby
 Requires:       %{?scl_prefix}rubygem(rake)
-Requires:       rubygem(ruby-progressbar)
-BuildRequires:  /usr/bin/pod2man /usr/bin/erb
-BuildRequires:  findutils puppet >= 2.6.6
+Requires:       %{?scl_prefix}rubygem(ruby-progressbar)
+BuildRequires:  %{?scl_prefix}ruby(abi) = 1.9.1
+BuildRequires:  /usr/bin/pod2man
+BuildRequires:  findutils %{?scl_prefix}puppet >= 2.6.6
 BuildRequires:  sed
 
 BuildArch: noarch
@@ -65,19 +71,18 @@ running katello-configure will configure the Foreman as well.
 %build
 %if ! 0%{?fastbuild:1}
     #check syntax of main configure script and libs
-    ruby -c bin/* lib/puppet/parser/functions/*rb
+    %{scl_ruby} -c bin/* lib/puppet/parser/functions/*rb
 
     #check syntax for all puppet scripts
-    %if 0%{?rhel} || 0%{?fedora} < 17
-    # Puppet 2.6 parseonly mode does not handle multiple files correctly
-    find -name '*.pp' | xargs -n 1 -t puppet --parseonly
-    %else
     # Puppet Bug #16006 (puppet 2.7 not working without a hostname)
-    find -name '*.pp' | FACTER_hostname=builder xargs -t puppet parser validate
-    %endif
+    find -name '*.pp' | FACTER_hostname=builder xargs -t %{scl_puppet} parser validate
 
     #check for puppet erb syntax errors
-    find modules/ -name \*erb | xargs aux/check_erb
+    %if %{?scl:1}%{!?scl:0}
+        find modules/ -name \*erb | xargs aux/scl_check_erb
+    %else
+        find modules/ -name \*erb | xargs aux/check_erb
+    %endif 
 %endif
 
 # README is development (git) only
@@ -86,6 +91,8 @@ rm -f upgrade-scripts/README
 #replace shebangs for SCL
 %if %{?scl:1}%{!?scl:0}
     sed -ri '1,$s|/usr/bin/rake|/usr/bin/ruby193-rake|' upgrade-scripts/*
+    sed -ri '1,$s|/usr/bin/ruby|/usr/bin/ruby193-ruby|' upgrade-scripts/* bin/* lib/util/*
+    sed -ri '1,$s|puppet apply|/usr/bin/ruby193-puppet apply|' bin/katello-configure
 %endif
 
 #build katello-configure man page
