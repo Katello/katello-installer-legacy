@@ -2,5 +2,5 @@
 for F in $*;
 do
   echo -n "ERB check: $F... "
-  scl enable ruby193 "erb -x -T '-' '$F'" | scl enable ruby193 "ruby -c"
+  scl enable ruby193 "erb -x -T '-' '$F'" | /usr/bin/ruby193-ruby -c 
 done

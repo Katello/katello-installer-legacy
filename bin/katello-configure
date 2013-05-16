@@ -28,7 +28,7 @@ $stdout.sync = true
 default_path = "#{PREFIX}/default-answer-file"
 options_format_path = "#{PREFIX}/options-format-file"
 result_config_path = "/etc/katello/katello-configure.conf"
-puppet_cmd = "puppet apply --modulepath #{PREFIX}/puppet/modules --libdir #{PREFIX}/puppet/lib -v -d"
+puppet_cmd = "/usr/bin/ruby193-puppet apply --modulepath #{PREFIX}/puppet/modules --libdir #{PREFIX}/puppet/lib -v -d"
 log_parent_directory = '/var/log/katello'
 default_progressbar_title = 'Katello configuration'
 
