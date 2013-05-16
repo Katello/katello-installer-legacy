@@ -329,15 +329,17 @@ end
 # additional temporary file which is also used (but deleted afterwards)
 def create_temp_config_file(temp_options)
   orig_umask = File.umask(077)
-  temp_config_path = '/dev/null'
+  temp_file = nil
   Tempfile.open("katello-configure-temp") do |temp_config|
-    temp_config_path = temp_config.path
+    temp_file = temp_config
     $temp_options.each_pair do |key, value|
       temp_config.syswrite("#{key}=#{value}\n")
     end
   end
   File.umask(orig_umask)
-  return temp_config_path
+  #TempFiles are deleted upon garbage collection
+  # so the object needs to be kept track of
+  return temp_file
 end
 
 def main_puppet(puppet_cmd, nobars, default_progressbar_title, puppet_logfile_filename, puppet_logfile_aprox_size, debug_stdout, commands_by_logfiles, puppet_in)
