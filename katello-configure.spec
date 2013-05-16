@@ -76,7 +76,6 @@ running katello-configure will configure the Foreman as well.
     #check syntax for all puppet scripts
     # Puppet Bug #16006 (puppet 2.7 not working without a hostname)
     find -name '*.pp' | FACTER_hostname=builder xargs -t %{scl_puppet} parser validate
-    %endif
 
     #check for puppet erb syntax errors
     %if %{?scl:1}%{!?scl:0}
