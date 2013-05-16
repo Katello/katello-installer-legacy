@@ -74,12 +74,8 @@ running katello-configure will configure the Foreman as well.
     %{scl_ruby} -c bin/* lib/puppet/parser/functions/*rb
 
     #check syntax for all puppet scripts
-    %if 0%{?rhel} || 0%{?fedora} < 17
-    # Puppet 2.6 parseonly mode does not handle multiple files correctly
-    find -name '*.pp' | xargs -n 1 -t %{scl_ruby} parser validate
-    %else
     # Puppet Bug #16006 (puppet 2.7 not working without a hostname)
-    find -name '*.pp' | FACTER_hostname=builder xargs -t scl_puppet parser validate
+    find -name '*.pp' | FACTER_hostname=builder xargs -t %{scl_puppet} parser validate
     %endif
 
     #check for puppet erb syntax errors
