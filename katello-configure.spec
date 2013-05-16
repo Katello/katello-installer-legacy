@@ -91,6 +91,7 @@ rm -f upgrade-scripts/README
 #replace shebangs for SCL
 %if %{?scl:1}%{!?scl:0}
     sed -ri '1,$s|/usr/bin/rake|/usr/bin/ruby193-rake|' upgrade-scripts/*
+    sed -ri '1,$s|/usr/bin/ruby|/usr/bin/ruby193-ruby|' upgrade-scripts/* bin/* lib/util/*
     sed -ri '1,$s|puppet apply|/usr/bin/ruby193-puppet apply|' bin/katello-configure
 %endif
 
