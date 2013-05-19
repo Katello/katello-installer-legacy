@@ -133,6 +133,7 @@ class foreman::config {
   } ~>
 
   exec {"foreman_config":
+   environment => ['HOME=/root'],
    cwd     => $foreman::app_root,
    command => $foreman_config_cmd,
    unless  => "$foreman_config_cmd --dry-run",
