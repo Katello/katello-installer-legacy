@@ -2,8 +2,10 @@ class katello::params {
 
   if ($operatingsystem == "RedHat" or $operatingsystem == "CentOS"){
     $scl_prefix = 'ruby193-'
+    $scl_root = '/opt/rh/ruby193/root'
   } else {
     $scl_prefix = ''
+    $scl_root = ''
   }
 
   # First User and Org settings
