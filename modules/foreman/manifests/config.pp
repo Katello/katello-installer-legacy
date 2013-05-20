@@ -119,7 +119,7 @@ class foreman::config {
 
   exec {"foreman_migrate_db":
     cwd         => $foreman::app_root,
-    environment => ["RAILS_ENV=${foreman::environment}", "BUNDLER_EXT_NOSTRICT=1"],
+    environment => ["RAILS_ENV=${foreman::environment}", "BUNDLER_EXT_NOSTRICT=1", "HOME=/root"],
     command     => "/usr/bin/${katello::params::scl_prefix}rake db:migrate --trace --verbose && touch /var/lib/foreman/foreman_db_migrate_done",
     path        => "/sbin:/usr/sbin:/bin:/usr/bin",
     creates     => "/var/lib/foreman/foreman_db_migrate_done",
