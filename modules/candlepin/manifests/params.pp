@@ -1,4 +1,6 @@
 class candlepin::params {
+  include katello::params
+
   $db_user = katello_config_value('candlepin_db_user')
   $db_name = katello_config_value('candlepin_db_name')
 
@@ -28,6 +30,8 @@ class candlepin::params {
     }
     default : {
       $env_filtering_enabled = "true"
+      $weburl = "https://${::fqdn}/${::katello::params::katello_url}/distributors?uuid="
+      $apiurl = "https://${::fqdn}/${::katello::params::katello_url}/api/distributors/"
     }
   }
 
