@@ -15,6 +15,8 @@ candlepin.environment_content_filtering=<%= scope.lookupvar("candlepin::params::
 candlepin.auth.basic.enable = false
 candlepin.auth.trusted.enable = false
 candlepin.enable_cert_v3=true
+candlepin.export.prefix.weburl=<%= scope.lookupvar("candlepin::params::weburl") %>
+candlepin.export.prefix.apiurl=<%= scope.lookupvar("candlepin::params::apiurl") %>
 <% if scope.lookupvar("candlepin::params::katello_oauth_key") != "" -%>
 module.config.katello=org.candlepin.katello.KatelloModule
 candlepin.auth.oauth.enable = true
