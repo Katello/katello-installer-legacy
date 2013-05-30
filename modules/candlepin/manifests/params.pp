@@ -30,8 +30,8 @@ class candlepin::params {
     }
     default : {
       $env_filtering_enabled = "true"
-      $weburl = "https://${::fqdn}/${::katello::params::katello_url}/distributors?uuid="
-      $apiurl = "https://${::fqdn}/${::katello::params::katello_url}/api/distributors/"
+      $weburl = "https://${::fqdn}/${::katello::params::deployment}/distributors?uuid="
+      $apiurl = "https://${::fqdn}/${::katello::params::deployment}/api/distributors/"
     }
   }
 
