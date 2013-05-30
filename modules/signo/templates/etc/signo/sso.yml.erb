@@ -17,7 +17,7 @@
 #  url_prefix: '/signo'
 #
   # mode of katello deploy, possible values are katello and headpin
-  app_mode: <%= scope.lookupvar('katello::params::deployment') -%>
+  app_mode: <%= scope.lookupvar('katello::params::deployment') %>
 #
 #  # configuration of all authentication backends
   :backends:
