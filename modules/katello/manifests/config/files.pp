@@ -66,12 +66,6 @@ class katello::config::files {
       owner   => "root",
       group   => "root",
       mode    => "644";
-
-    "/etc/ldap_fluff.yml":
-      content => template("katello/etc/ldap_fluff.yml.erb"),
-      owner   => $katello::params::user,
-      group   => $katello::params::group,
-      mode    => "600";
   }
 
 }
