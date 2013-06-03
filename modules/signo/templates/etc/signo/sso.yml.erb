@@ -27,7 +27,7 @@
       - <%= scope.lookupvar('signo::params::backend') %>
     :katello:
       # on which url we should authenticate users against katello
-      :url: https://<%= scope.lookupvar('fqdn') -%>/<%= scope.lookupvar('katello::params::deployment') -%>/authenticate
+      :url: https://<%= scope.lookupvar('fqdn') -%>/<%= scope.lookupvar('katello::params::deployment_url') -%>/authenticate
     :ldap:
        host: <%= scope.lookupvar('katello::params::ldap_server') %>
        port: <%= scope.lookupvar('katello::params::ldap_port') %>
