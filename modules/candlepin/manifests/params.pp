@@ -21,6 +21,9 @@ class candlepin::params {
   # database reinitialization flag
   $reset_data = katello_config_value('reset_data')
 
+  $weburl = "https://${::fqdn}/${::katello::params::deployment}/distributors?uuid="
+  $apiurl = "https://${::fqdn}/${::katello::params::deployment}/api/distributors/"
+
   case $katello::params::deployment {
     'headpin' : {
       require "thumbslug::params"
@@ -30,8 +33,6 @@ class candlepin::params {
     }
     default : {
       $env_filtering_enabled = "true"
-      $weburl = "https://${::fqdn}/${::katello::params::deployment}/distributors?uuid="
-      $apiurl = "https://${::fqdn}/${::katello::params::deployment}/api/distributors/"
     }
   }
 
