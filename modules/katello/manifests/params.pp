@@ -22,16 +22,16 @@ class katello::params {
 
   case $deployment_url {
       'katello': {
-        $deployment = 'katello' 
+        $deployment = 'katello'
       }
       'sam': {
-        $deployment = 'headpin' 
+        $deployment = 'headpin'
       }
       'headpin': {
-        $deployment = 'headpin' 
+        $deployment = 'headpin'
       }
       default : {
-	$deployment = katello_config_value('deployment') 
+	$deployment = katello_config_value('deployment')
       }
   }
 
@@ -98,9 +98,10 @@ class katello::params {
   $ldap_service_pass = katello_config_value('ldap_service_pass')
   $ldap_anon_queries = katello_config_value('ldap_anon_queries')
   $ldap_ad_domain = katello_config_value('ldap_ad_domain')
+  $validate_ldap = katello_config_value('validate_ldap')
 
   # auth method
-  $auth_method = katello_config_value('auth_method') 
+  $auth_method = katello_config_value('auth_method')
 
   # OAUTH settings
   $oauth_key    = "katello"
