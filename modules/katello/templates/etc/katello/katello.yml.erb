@@ -14,6 +14,7 @@ common:
 
   warden:  <%= scope.lookupvar("katello::params::auth_method") %>
   ldap_roles: <%= scope.lookupvar("katello::params::ldap_roles") %>
+  validate_ldap: <%= scope.lookupvar("katello::params::validate_ldap") %>
   rest_client_timeout: 120
 
   url_prefix: /<%= scope.lookupvar("katello::params::deployment_url") %>
