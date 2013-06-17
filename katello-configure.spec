@@ -65,6 +65,22 @@ Requires:       %{?scl_prefix}rubygem(katello-foreman-engine)
 Install and configure Foreman on the same machine. With this subpackage installed,
 running katello-configure will configure the Foreman as well.
 
+%package foreman-proxy
+BuildArch:      noarch
+Summary:        install and configure Foreman smart proxy
+# We use the puppet modules provided by the comunity
+Requires:       %{name}
+Requires:       foreman-installer
+Requires:       foreman-proxy tftp-server dhcp bind
+Obsoletes:      foreman-proxy-installer < 1.0.2
+Provides:       foreman-proxy-installer = 1.0.2
+
+%description foreman-proxy
+Install and configure Foreman smart proxy. With this subpackage installed,
+new script called foreman-proxy-installer will be available. It's possible
+to use just this package to install the proxy on different system than katello
+or foreman itself.
+
 %prep
 %setup -q
 
@@ -117,11 +133,13 @@ install -m 0755 bin/katello-configure %{buildroot}%{_sbindir}
 install -m 0755 bin/katello-upgrade %{buildroot}%{_sbindir}
 install -m 0755 bin/katello-passwd %{buildroot}%{_sbindir}
 install -m 0755 bin/katello-configure-answer %{buildroot}%{_sbindir}
+install -m 0755 bin/foreman-proxy-configure %{buildroot}%{_sbindir}
 install -d -m 0755 %{buildroot}%{homedir}
 install -d -m 0755 %{buildroot}%{homedir}/puppet/modules
 cp -Rp modules/* %{buildroot}%{homedir}/puppet/modules
 install -d -m 0755 %{buildroot}%{homedir}/puppet/lib
 cp -Rp lib/* %{buildroot}%{homedir}/puppet/lib
+cp -Rp foreman-proxy %{buildroot}%{homedir}
 install -m 0644 default-answer-file %{buildroot}%{homedir}
 install -m 0644 options-format-file %{buildroot}%{homedir}
 install -d -m 0755 %{buildroot}%{_mandir}/man1
@@ -144,9 +162,14 @@ chmod +x -R %{buildroot}%{homedir}/upgrade-scripts/*
 %{_mandir}/man1/katello-passwd.1*
 %{_mandir}/man1/katello-configure-answer.1*
 %exclude %{homedir}/puppet/modules/foreman
+%exclude %{homedir}/foreman-proxy
 
 %files foreman
 %{homedir}/puppet/modules/foreman
+
+%files foreman-proxy
+%{_sbindir}/foreman-proxy-configure
+%{homedir}/foreman-proxy
 
 %changelog
 * Tue May 07 2013 Mike McCune <mmccune@redhat.com> 1.4.3-1
