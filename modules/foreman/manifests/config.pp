@@ -115,7 +115,8 @@ class foreman::config {
                               -k oauth_consumer_secret -v '${foreman::oauth_consumer_secret}'\
                               -k oauth_map_users -v '${foreman::oauth_map_users}'\
                               -k administrator -v '${foreman::administrator}'\
-                              -k signo_sso -v true"
+                              -k signo_sso -v true\
+                              -k signo_url -v '${foreman::signo_url}'"
 
   exec {"foreman_migrate_db":
     cwd         => $foreman::app_root,
