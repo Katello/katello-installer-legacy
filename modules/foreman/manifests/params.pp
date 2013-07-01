@@ -32,6 +32,7 @@ class foreman::params {
   $administrator      = "root@localhost.localdomain"
 
   $katello_url = "https://$fqdn/katello"
+  $signo_url = "https://$fqdn/signo"
 
   # should oauth be used?
   $oauth_active       = false
