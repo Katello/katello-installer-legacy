@@ -22,7 +22,7 @@
 %endif
 
 Name:           katello-configure
-Version:        1.4.3
+Version:        1.4.4
 Release:        1%{?dist}
 Summary:        Configuration tool for Katello
 
@@ -172,6 +172,70 @@ chmod +x -R %{buildroot}%{homedir}/upgrade-scripts/*
 %{homedir}/foreman-proxy
 
 %changelog
+* Wed Jul 31 2013 Bryan Kearney <bkearney@redhat.com> 1.4.4-1
+- 976556 - Enforce Signo URL in foreman (mhulan@redhat.com)
+- 975925-deployment - use correct var in candlepin.conf
+  (thomasmckay@redhat.com)
+- Extract foreman-proxy-configure script from Katello's foreman-install repo
+  (inecas@redhat.com)
+- Merge pull request #33 from komidore64/validate_ldap (komidore64@gmail.com)
+- 973630 - redirect to https only if the path begins with '/katello'
+  (inecas@redhat.com)
+- 966204 - validate_ldap flag not created in katello.yml leading to ldap
+  validation failures (komidore64@gmail.com)
+- 958177-headpin-urls - moved weburl and apiurl outside to they are set in both
+  headpin and katello (thomasmckay@redhat.com)
+- 972230 - decreasing pulp concurrency count (jsherril@redhat.com)
+- 970264: Use the deployment_url parameter to configure where signo should
+  authenticate users (bkearney@redhat.com)
+- order of substituion matter (msuchy@redhat.com)
+- Merge pull request #27 from ares/bug/966256_ldap_fluff_upgrade
+  (ares@igloonet.cz)
+- 958177-fix - corrected variable (thomasmckay@redhat.com)
+- There must be end of line (mhulan@redhat.com)
+- 966256 - Fixes for new ldap_fluff API (mhulan@redhat.com)
+- Merge pull request #25 from ares/feature/signo_branding (inecas@redhat.com)
+- Configure Signo app mode (mhulan@redhat.com)
+- 958177-cpurl - set candlepin.conf web and api url (thomasmckay@redhat.com)
+- Set HOME=${foreman::app_root} for foreman Rails actions (inecas@redhat.com)
+- scl_root - add parameter and use in puppet template (bbuckingham@redhat.com)
+- Add home environment. (bkearney@redhat.com)
+- Merge pull request #19 from mccun934/scl-enable (bbuckingham@redhat.com)
+- feedback from msuchy during PR - more files to SCL (mmccune@redhat.com)
+- extra else needed removal (mmccune@redhat.com)
+- no need for older puppet support (mmccune@redhat.com)
+- switch to puppet 3 syntax and fix variable name for scl_puppet
+  (mmccune@redhat.com)
+- remove mistaken commit that hard coded SCL path (mmccune@redhat.com)
+- more SCL support for katello-configure exec and using wrapper
+  (mmccune@redhat.com)
+- scl the call to ruby in the build step (mmccune@redhat.com)
+- forgot build requires ... (mmccune@redhat.com)
+- SCL puppet requirement (mmccune@redhat.com)
+- make katello-configure SCL compliant (mmccune@redhat.com)
+- issue 2287 - fixing user pass install not working (jsherril@redhat.com)
+- Merge pull request #17 from ehelms/cfse-removal (ericdhelms@gmail.com)
+- Merge pull request #16 from ares/bug/961395_ldap_support (ares@igloonet.cz)
+- Technical Debt - Removing 'cfse' references. (ehelms@redhat.com)
+- Merge pull request #14 from xsuchy/pull-req-scl-rake (miroslav@suchy.cz)
+- Allows LDAP configuration also in Signo (mhulan@redhat.com)
+- Restart Signo after configuration change (mhulan@redhat.com)
+- we do not need plain rake on non SCL, but we need SCL version
+  (msuchy@redhat.com)
+- 961162 - fix foreman_db_migrate_done location (inecas@redhat.com)
+- Revert "Revert "Fix missing square bracket"" (jweiss@redhat.com)
+- Revert "Fix missing square bracket" (mmccune@redhat.com)
+- Fix missing square bracket (jweiss@redhat.com)
+- Use fqdn in foreman_url settings (inecas@redhat.com)
+- Merge pull request #3 from witlessbird/candlepin-cert-consumer
+  (witlessbird@gmail.com)
+- Correct Katello url for Headpin mode as well (mhulan@redhat.com)
+- replaced exec-based link creation with the 'puppet-way'
+  (dmitri@appliedlogic.ca)
+- BZ #956256 and #956261: added a link to candlepin-cert-consumer package that
+  omits fqdn of the server and the version from the file name.
+  (dmitri@appliedlogic.ca)
+
 * Tue May 07 2013 Mike McCune <mmccune@redhat.com> 1.4.3-1
 - Add katello-foreman integration part (necasik@gmail.com)
 - Run token generating under root (mhulan@redhat.com)
