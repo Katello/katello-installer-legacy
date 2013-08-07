@@ -121,8 +121,7 @@ class foreman::config {
   exec {"foreman_migrate_db":
     cwd         => $foreman::app_root,
     environment => ["RAILS_ENV=${foreman::environment}", "BUNDLER_EXT_NOSTRICT=1", "HOME=${foreman::app_root}"],
-    command     => "/usr/bin/${katello::params::scl_prefix}rake db:migrate --trace --verbose && touch /var/lib/foreman/foreman_db_migrate_done",
-    path        => "/sbin:/usr/sbin:/bin:/usr/bin",
+    command     => "/usr/bin/${katello::params::scl_prefix}rake db:migrate --trace --verbose && /bin/touch /var/lib/foreman/foreman_db_migrate_done",
     creates     => "/var/lib/foreman/foreman_db_migrate_done",
     user        => $foreman::user,
     require     => [ Postgres::Createdb[$foreman::db_name],
@@ -144,8 +143,7 @@ class foreman::config {
 
   if $foreman::reset_data == 'YES' {
     exec {"reset_foreman_db":
-      command => "rm -f /var/lib/foreman/foreman_db_migrate_done; if service foreman status ; then /usr/sbin/service-wait foreman stop; else true; fi",
-      path    => "/sbin:/bin:/usr/bin",
+      command => "/bin/rm -f /var/lib/foreman/foreman_db_migrate_done; if service foreman status ; then /usr/sbin/service-wait foreman stop; else true; fi",
       before  => Exec["foreman_migrate_db"],
     } ~>
 
