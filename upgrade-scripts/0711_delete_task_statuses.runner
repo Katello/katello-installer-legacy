@@ -3,11 +3,21 @@
 #apply: katello headpin
 #run: once
 #description:
-# https://github.com/Katello/katello/issues/1963 
+# https://github.com/Katello/katello/issues/1963
 # In the past Tire Index objects were stored as
 #  the result of a delayed job.  In rails 3.2 these
 #  objects cannot be serialized or deserialized
 #  so loading these objects fail.
+#
+# Note: All the stored task ids must be cleared to avoid errors such as:
+#       ERROR: update or delete on table "task_statuses" violates foreign key constraint
+#       "providers_task_status_id_fk" on table "providers"
 
+Organization.update_all(:deletion_task_id => nil)
+Organization.update_all(:apply_info_task_id => nil)
+Organization.update_all(:owner_auto_attach_all_systems_task_id => nil)
+Provider.update_all(:discovery_task_id => nil)
+Provider.update_all(:task_status_id => nil)
+Changeset.update_all(:task_status_id => nil)
 
 TaskStatus.delete_all
