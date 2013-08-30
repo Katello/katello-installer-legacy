@@ -42,7 +42,13 @@ Requires:       initscripts
 Requires:       libselinux-ruby
 Requires:       %{?scl_prefix}rubygem(rake)
 Requires:       %{?scl_prefix}rubygem(ruby-progressbar)
-BuildRequires:  %{?scl_prefix}ruby(abi) = 1.9.1
+
+%if 0%{?fedora} > 18
+BuildRequires:       %{?scl_prefix}ruby(release)
+%else
+BuildRequires:       %{?scl_prefix}ruby(abi) = 1.9.1
+%endif
+
 BuildRequires:  /usr/bin/pod2man
 BuildRequires:  findutils %{?scl_prefix}puppet >= 2.6.6
 BuildRequires:  sed
