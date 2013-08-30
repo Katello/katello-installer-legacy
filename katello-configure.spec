@@ -22,7 +22,7 @@
 %endif
 
 Name:           katello-configure
-Version:        1.4.4
+Version:        1.4.5
 Release:        1%{?dist}
 Summary:        Configuration tool for Katello
 
@@ -178,6 +178,21 @@ chmod +x -R %{buildroot}%{homedir}/upgrade-scripts/*
 %{homedir}/foreman-proxy
 
 %changelog
+* Fri Aug 30 2013 Partha Aji <paji@redhat.com> 1.4.5-1
+- Updated ruby abi to get it work for f19 (paji@redhat.com)
+- Updated tito props to include f19 (paji@redhat.com)
+- Merge pull request #41 from Katello/bkearney/1000147
+  (bryan.kearney@gmail.com)
+- 1000147: Set the url prefix in the subscription manager install script
+  (bkearney@redhat.com)
+- Merge pull request #39 from thomasmckay/998631-task-statuses
+  (thomasmckay@redhat.com)
+- 998631-task-statuses - clear task statuses references before deleting
+  (thomasmckay@redhat.com)
+- 998717-no-signo - headpin mode skips signo (thomasmckay@redhat.com)
+- 994326 - fully specify the path of the commands (mmccune@redhat.com)
+- 994326 - remove path stanza that hozes SCL's pathing (mmccune@redhat.com)
+
 * Wed Jul 31 2013 Bryan Kearney <bkearney@redhat.com> 1.4.4-1
 - 976556 - Enforce Signo URL in foreman (mhulan@redhat.com)
 - 975925-deployment - use correct var in candlepin.conf
