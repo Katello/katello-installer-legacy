@@ -1,8 +1,20 @@
 class qpid::config {
-
   user { 'qpidd':
         ensure => present,
         groups => ['katello']
+  }
+
+  if $::operatingsystem == 'Fedora' {
+    $mechanism_option = 'ha-mechanism'
+    package {"qpid-cpp-server-ha":
+    ensure => installed,
+    }
+  }
+  else {
+    $mechanism_option = 'cluster-mechanism'
+    package {"qpid-cpp-server-cluster":
+      ensure => installed,
+    }
   }
 
   file { "/etc/qpidd.conf":

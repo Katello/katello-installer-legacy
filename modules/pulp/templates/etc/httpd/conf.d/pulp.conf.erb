@@ -38,7 +38,7 @@ WSGIImportScript /srv/pulp/webservices.wsgi process-group=pulp application-group
     SSLVerifyClient optional
 </Files>
 
-<%- if scope.lookupvar('operatingsystem') == 'Fedora' && scope.lookupvar('operatingsystemrelease') == '18' -%>
+<%- if scope.lookupvar('operatingsystem') == 'Fedora' -%>
 <Directory /srv/pulp>
   Require all granted
 </Directory> 

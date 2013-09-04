@@ -12,7 +12,7 @@ class candlepin::install {
     gpgcheck => "0"
   }
 
-	package {"candlepin-tomcat6":
+	package {"candlepin-${katello::params::tomcat}":
     require => Yumrepo["katello-candlepin"],
     ensure  => installed
   }
