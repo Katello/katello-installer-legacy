@@ -104,6 +104,12 @@ class certs::config {
     creates => "${ssl_build_path}/$candlepin_cert_name.crt",
     require => [File["${certs::params::candlepin_ca_password_file}"], File["${katello::params::configure_log_base}"]],
     notify => Exec["generate-candlepin-consumer-certificate"] # regenerate consumer RPM as well
+  } ->
+
+  exec { 'install-ca-certificate':
+    cwd     => '/etc/pki/tls/certs',
+    command => "ln -s ${ssl_build_path}/$candlepin_cert_name.crt `openssl x509 -hash -noout -in ${ssl_build_path}/$candlepin_cert_name.crt`.0",
+    path    => "/usr/bin:/bin"
   }
 
   $candlepin_consumer_name = "${candlepin_cert_name}-consumer-${fqdn}"
