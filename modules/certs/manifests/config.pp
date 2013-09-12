@@ -109,6 +109,7 @@ class certs::config {
   exec { 'install-ca-certificate':
     cwd     => '/etc/pki/tls/certs',
     command => "ln -s ${ssl_build_path}/$candlepin_cert_name.crt `openssl x509 -hash -noout -in ${ssl_build_path}/$candlepin_cert_name.crt`.0",
+    unless => "test -e `openssl x509 -hash -noout -in ${ssl_build_path}/$candlepin_cert_name.crt`.0",
     path    => "/usr/bin:/bin"
   }
 
