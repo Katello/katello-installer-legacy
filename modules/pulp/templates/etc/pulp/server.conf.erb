@@ -77,6 +77,36 @@ send_enabled: false
 recv_enabled: false
 
 
+# = Data Reaping =
+#
+# Controls the frequency in which reporting data is automatically removed from
+# the database. Database entries that exceed the given thresholds will be
+# deleted from the database when the reaper runs.
+#
+# reaper_interval: float; time in days between checks for old data in
+#     the database
+#
+# archived_calls: float; time in days to store archived calls
+#
+# consumer_history: float; time in days to store consumer history events
+#
+# repo_sync_history: float; time in days to store repository sync history events
+#
+# repo_publish_history: float; time in days to store repository publish history
+#     events
+#
+# repo_group_publish_history: float; time in days to store repository group
+#     publish history events
+
+[data_reaping]
+reaper_interval: 0.25
+archived_calls: 0.5
+consumer_history: 60
+repo_sync_history: 60
+repo_publish_history: 60
+repo_group_publish_history: 60
+
+
 # LDAP options
 #
 # Uncomment the below section with appropriate values, to use an external LDAP
@@ -131,6 +161,7 @@ oauth_secret: <%= scope.lookupvar("pulp::params::oauth_secret") %>
 
 [logs]
 config: /etc/pulp/logging/basic.cfg
+db_config: /etc/pulp/logging/db.cfg
 qpid_log_level: debug
 level: info
 max_size: 1048576

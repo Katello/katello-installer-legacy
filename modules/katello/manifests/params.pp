@@ -20,6 +20,13 @@ class katello::params {
   $db_pass = katello_config_value('db_password')
   $deployment_url = katello_config_value('deployment')
 
+  if katello_file_exists("/usr/sbin/tomcat") and !katello_file_exists("/usr/sbin/tomcat6") {
+    $tomcat = "tomcat"
+  }
+  else {
+    $tomcat = "tomcat6"
+  }
+
   case $deployment_url {
       'katello': {
         $deployment = 'katello'
