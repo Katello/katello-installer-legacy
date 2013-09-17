@@ -6,6 +6,11 @@
 
 <Location /foreman>
   RequestHeader set X_FORWARDED_PROTO 'https' env=HTTPS
+  RequestHeader set SSL_CLIENT_S_DN "%{SSL_CLIENT_S_DN}s"
+  RequestHeader set SSL_CLIENT_VERIFY "%{SSL_CLIENT_VERIFY}s"
+  SSLVerifyClient optional
+  SSLVerifyDepth 2
+
   ProxyPass balancer://foreman-thin-servers
   ProxyPassReverse balancer://foreman-thin-servers
 </Location>
