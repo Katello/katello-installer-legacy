@@ -190,6 +190,16 @@ Dir.chdir '/root'
 # <BEFORE CONFIGURATION CHECKS>
 check_hostname
 
+if not user_exists?('katello')
+  $stderr.puts "katello user does not exist"
+  exit_with :user_not_exists
+end
+
+if not group_exists?('katello')
+  $stderr.puts "katello group does not exist"
+  exit_with :group_not_exists
+end
+
 if not `java -version 2>&1`.include? 'OpenJDK'
   $stderr.puts "Command 'java -version' does not return OpenJDK, only OpenJDK is supported."
   exit_with :java_error
