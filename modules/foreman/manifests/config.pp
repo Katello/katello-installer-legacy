@@ -115,6 +115,11 @@ class foreman::config {
                               -k oauth_consumer_secret -v '${foreman::oauth_consumer_secret}'\
                               -k oauth_map_users -v '${foreman::oauth_map_users}'\
                               -k administrator -v '${foreman::administrator}'\
+                              -k ssl_client_dn_env -v 'HTTP_SSL_CLIENT_S_DN'\
+                              -k ssl_client_verify_env -v 'HTTP_SSL_CLIENT_VERIFY'\
+                              -k ssl_ca_file -v '/etc/foreman/client_ca.pem'\
+                              -k ssl_certificate -v '/etc/foreman/client_cert.pem'\
+                              -k ssl_priv_key -v '/etc/foreman/client_key.pem'\
                               -k signo_sso -v true\
                               -k signo_url -v '${foreman::signo_url}'"
 
