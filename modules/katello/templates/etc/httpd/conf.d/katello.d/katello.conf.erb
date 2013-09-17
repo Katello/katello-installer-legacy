@@ -12,7 +12,7 @@ Alias /<%= scope.lookupvar("katello::params::deployment_url") %>/javascripts "/u
 ExpiresActive On
 <Directory "/usr/share/katello/public/">
   ExpiresDefault "access plus 1 year"
-  <%- if scope.lookupvar('operatingsystem') == 'Fedora' && scope.lookupvar('operatingsystemrelease') == '18' -%>
+  <%- if scope.lookupvar('operatingsystem') == 'Fedora'-%>
   Require all granted
   <%- end -%>
 </Directory>

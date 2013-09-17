@@ -6,7 +6,7 @@ class thumbslug::service {
     hasrestart => true,
     require => [
       Class["thumbslug::config"],
-      Service["tomcat6"]
+      Service["${katello::params::tomcat}"]
     ]
   }
 }

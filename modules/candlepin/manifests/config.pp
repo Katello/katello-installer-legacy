@@ -3,7 +3,7 @@ class candlepin::config {
   user { 'tomcat':
     ensure => present,
     groups => ['katello'],
-    before => Service["tomcat6"]
+    before => Service["${katello::params::tomcat}"]
   }
 
   postgres::createuser { $candlepin::params::db_user:
@@ -16,32 +16,32 @@ class candlepin::config {
     content => template("candlepin/etc/candlepin/candlepin.conf.erb"),
     mode    => '600',
     owner   => 'tomcat',
-    notify  => Service["tomcat6"];
-  "/etc/tomcat6/server.xml":
-    content => template("candlepin/etc/tomcat6/server.xml.erb"),
+    notify  => Service["${katello::params::tomcat}"];
+  "/etc/${katello::params::tomcat}/server.xml":
+    content => template("candlepin/etc/${katello::params::tomcat}/server.xml.erb"),
     mode    => '644',
     owner   => 'root',
     group   => 'root',
-    notify  => Service["tomcat6"];
+    notify  => Service["${katello::params::tomcat}"];
   # various tomcat versions had some permission bugs - fix them all
-  "/etc/tomcat6":
+  "/etc/${katello::params::tomcat}":
     mode    => '775';
-  "/var/log/tomcat6":
+  "/var/log/${katello::params::tomcat}":
     mode    => '775',
     owner   => 'root',
     group   => 'tomcat';
-  "/var/lib/tomcat6":
+  "/var/lib/${katello::params::tomcat}":
     mode    => '775',
     owner   => 'tomcat',
     group   => 'tomcat';
-  "/var/cache/tomcat6":
+  "/var/cache/${katello::params::tomcat}":
     owner   => 'tomcat',
     group   => 'tomcat';
   }
 
   if $candlepin::params::reset_data == 'YES' {
     exec {"reset_candlepin_db":
-      command => "rm -f /var/lib/katello/cpdb_done; rm -f /var/lib/katello/cpinit_done; service tomcat6 stop; test 1 -eq 1",
+      command => "rm -f /var/lib/katello/cpdb_done; rm -f /var/lib/katello/cpinit_done; service ${katello::params::tomcat} stop; test 1 -eq 1",
       path    => "/sbin:/bin:/usr/bin",
       before  => Exec["cpdb"],
       notify  => Postgres::Dropdb["$candlepin::params::db_name"],
