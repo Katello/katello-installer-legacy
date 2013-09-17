@@ -1,5 +1,6 @@
 begin
-  require '/usr/share/katello/lib/util/puppet.rb'
+  prefix = ENV['KATELLO_GIT_CHECKOUT'] || '/usr/share/katello/'
+  require "#{prefix}/lib/util/puppet"
 rescue LoadError
   fail "Katello was not installed on this host - configuration cannot continue"
 end

@@ -10,7 +10,8 @@
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
 #
 
-PREFIX = ENV['KATELLO_CONFIGURE_PREFIX'] || '/usr/share/katello/install'
+INSTALL_PATH = '/usr/share/katello/install'
+PREFIX       = ENV['KATELLO_INSTALLER_GIT_CHECKOUT'] || INSTALL_PATH
 
 require 'optparse'
 require 'fcntl'
@@ -21,14 +22,16 @@ require 'socket'
 require 'tempfile'
 require 'puppet'
 require 'puppet/util/selinux'
-require "#{PREFIX}/puppet/lib/util/functions.rb"
+require "#{PREFIX}/lib/util/functions"
 
 $stdout.sync = true
 
 default_path = "#{PREFIX}/default-answer-file"
 options_format_path = "#{PREFIX}/options-format-file"
 result_config_path = "/etc/katello/katello-configure.conf"
-puppet_cmd = "puppet apply --modulepath #{PREFIX}/puppet/modules --libdir #{PREFIX}/puppet/lib -v -d"
+puppet_module_path = ENV['KATELLO_INSTALLER_GIT_CHECKOUT'] ? "#{ENV['KATELLO_INSTALLER_GIT_CHECKOUT']}/modules" : "#{PREFIX}/puppet/modules"
+puppet_libdir_path = ENV['KATELLO_INSTALLER_GIT_CHECKOUT'] ? "#{ENV['KATELLO_INSTALLER_GIT_CHECKOUT']}/lib" : "#{PREFIX}/puppet/lib"
+puppet_cmd = "puppet apply --modulepath #{puppet_module_path} --libdir #{puppet_libdir_path} -v -d"
 log_parent_directory = '/var/log/katello'
 default_progressbar_title = 'Katello configuration'
 
