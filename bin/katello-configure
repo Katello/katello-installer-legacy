@@ -142,11 +142,14 @@ if $default_options_errors != ''
   exit 6
 end
 
-# We will only keep values that are different from the default ones.
-$final_options.each do |key, value|
-  if $default_options[key] == value
-    $final_options.delete(key)
-  end
+if default_path.index(INSTALL_PATH) != 0
+  # The default answer file is _not_ the one under /usr/share/katell/install,
+  # this is the one inside of the git checkout. Hence we must built the final
+  # options using these default values as a starting point.
+  $final_options = $default_options.merge($final_options)
+else
+  # We will only keep values that are different from the default ones.
+  $final_options.delete_if!{ |key, value| $default_options[key] == value }
 end
 
 # Set the deployment to be the relative url
