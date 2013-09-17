@@ -53,6 +53,9 @@ end
 options = {}
 
 # answer file is always loaded by default
+unless File.exists?(File.dirname(result_config_path))
+  FileUtils.mkdir_p(File.dirname result_config_path)
+end
 FileUtils.touch result_config_path
 options['answer_file'] = result_config_path
 
