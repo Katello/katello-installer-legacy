@@ -12,9 +12,6 @@ class qpid::config {
   }
   else {
     $mechanism_option = 'cluster-mechanism'
-    package {"qpid-cpp-server-cluster":
-      ensure => installed,
-    }
   }
 
   file { "/etc/qpidd.conf":
@@ -22,5 +19,5 @@ class qpid::config {
     before => [Class["qpid::service"]],
     notify => Service["qpidd"]
   }
-  
+
 }
