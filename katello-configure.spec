@@ -22,7 +22,7 @@
 %endif
 
 Name:           katello-configure
-Version:        1.4.5
+Version:        1.4.6
 Release:        1%{?dist}
 Summary:        Configuration tool for Katello
 
@@ -178,6 +178,15 @@ chmod +x -R %{buildroot}%{homedir}/upgrade-scripts/*
 %{homedir}/foreman-proxy
 
 %changelog
+* Fri Sep 20 2013 Partha Aji <paji@redhat.com> 1.4.6-1
+- Fixed qpidd config templates issue for RHEL 6 (paji@redhat.com)
+- Configure foreman to be able to authenticate against nodes
+  (inecas@redhat.com)
+- Set headers for foreman client authentication (inecas@redhat.com)
+- Updated installer to work with tomcat & httpd in f19 (paji@redhat.com)
+- Make sure the ca cert is not already installed (inecas@redhat.com)
+- Install candlepin CA (mhulan@redhat.com)
+
 * Fri Aug 30 2013 Partha Aji <paji@redhat.com> 1.4.5-1
 - Updated ruby abi to get it work for f19 (paji@redhat.com)
 - Updated tito props to include f19 (paji@redhat.com)
