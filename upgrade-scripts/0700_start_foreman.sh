@@ -5,5 +5,6 @@
 #run: always
 #description:
 #Start the service
-
-/usr/sbin/service-wait foreman start
+if [ -x /etc/init.d/foreman -o -x /lib/systemd/system/foreman.service ]; then
+  /usr/sbin/service-wait foreman start
+fi
