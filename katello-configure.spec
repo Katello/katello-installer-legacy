@@ -22,7 +22,7 @@
 %endif
 
 Name:           katello-configure
-Version:        1.4.6
+Version:        1.4.7
 Release:        1%{?dist}
 Summary:        Configuration tool for Katello
 
@@ -178,6 +178,12 @@ chmod +x -R %{buildroot}%{homedir}/upgrade-scripts/*
 %{homedir}/foreman-proxy
 
 %changelog
+* Fri Sep 27 2013 Partha Aji <paji@redhat.com> 1.4.7-1
+- Script to start foreman only if available (paji@redhat.com)
+- Autobuild f19 packages (paji@redhat.com)
+- 1010404: Earlier fix introduced string replacement issue
+  (bkearney@redhat.com)
+
 * Fri Sep 20 2013 Partha Aji <paji@redhat.com> 1.4.6-1
 - Fixed qpidd config templates issue for RHEL 6 (paji@redhat.com)
 - Configure foreman to be able to authenticate against nodes
