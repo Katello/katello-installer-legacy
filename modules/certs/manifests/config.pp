@@ -17,6 +17,7 @@ class certs::config {
   $candlepin_private_key_name = "$candlepin_cert_name.key"
   $candlepin_pub_cert = "/usr/share/katello/$candlepin_pub_cert_name"
   $candlepin_private_key = "${ssl_build_path}/$candlepin_private_key_name"
+  $candlepin_certs_storage = '/etc/candlepin/certs'
 
   exec { "generate-ssl-ca-password":
     command => "openssl rand -base64 24 > ${certs::params::ssl_ca_password_file}",
@@ -58,7 +59,7 @@ class certs::config {
     ensure => "directory"
   }
   exec { "generate-ssl-keystore":
-    command   => "openssl pkcs12 -export -in /etc/candlepin/certs/candlepin-ca.crt -inkey /etc/candlepin/certs/candlepin-ca.key -out ${certs::params::katello_keystore} -name tomcat -CAfile ${candlepin_pub_cert} -caname root -password \"file:${certs::params::keystore_password_file}\" 2>>${katello::params::configure_log_base}/certificates.log",
+    command   => "openssl pkcs12 -export -in $candlepin_certs_storage/candlepin-ca.crt -inkey $candlepin_certs_storage/candlepin-ca.key -out ${certs::params::katello_keystore} -name tomcat -CAfile ${candlepin_pub_cert} -caname root -password \"file:${certs::params::keystore_password_file}\" 2>>${katello::params::configure_log_base}/certificates.log",
     path      => "/usr/bin",
     creates   => $certs::params::katello_keystore,
     notify    => Service["${katello::params::tomcat}"],
@@ -107,8 +108,8 @@ class certs::config {
 
   exec { 'install-ca-certificate':
     cwd     => '/etc/pki/tls/certs',
-    command => "ln -s ${ssl_build_path}/$candlepin_cert_name.crt `openssl x509 -hash -noout -in ${ssl_build_path}/$candlepin_cert_name.crt`.0",
-    unless => "test -e `openssl x509 -hash -noout -in ${ssl_build_path}/$candlepin_cert_name.crt`.0",
+    command => "ln -s $candlepin_certs_storage/candlepin-ca.crt `openssl x509 -hash -noout -in $candlepin_certs_storage/candlepin-ca.crt`.0",
+    unless => "test -e `openssl x509 -hash -noout -in $candlepin_certs_storage/candlepin-ca.crt`.0",
     path    => "/usr/bin:/bin"
   }
 
@@ -139,9 +140,9 @@ class certs::config {
   }
 
   exec { "deploy-candlepin-certificate-to-cp":
-    command => "openssl x509 -in $candlepin_pub_cert -out /etc/candlepin/certs/candlepin-ca.crt; openssl rsa -in $candlepin_private_key -out /etc/candlepin/certs/candlepin-ca.key -passin 'file:/etc/katello/candlepin_ca_password-file' 2>>${katello::params::configure_log_base}/certificates.log",
+    command => "openssl x509 -in $candlepin_pub_cert -out $candlepin_certs_storage/candlepin-ca.crt; openssl rsa -in $candlepin_private_key -out $candlepin_certs_storage/candlepin-ca.key -passin 'file:/etc/katello/candlepin_ca_password-file' 2>>${katello::params::configure_log_base}/certificates.log",
     path => "/bin:/usr/bin",
-    creates => ["/etc/candlepin/certs/candlepin-ca.crt", "/etc/candlepin/certs/candlepin-ca.key"],
+    creates => ["$candlepin_certs_storage/candlepin-ca.crt", "$candlepin_certs_storage/candlepin-ca.key"],
     require => [Exec["deploy-candlepin-certificate"], File["${katello::params::configure_log_base}"]],
     before => Class["apache2::service"]
   }
