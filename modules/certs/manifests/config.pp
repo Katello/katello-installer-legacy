@@ -104,6 +104,14 @@ class certs::config {
     creates => "${ssl_build_path}/$candlepin_cert_name.crt",
     require => [File["${certs::params::candlepin_ca_password_file}"], File["${katello::params::configure_log_base}"]],
     notify => Exec["generate-candlepin-consumer-certificate"] # regenerate consumer RPM as well
+  }
+
+  exec { "deploy-candlepin-certificate-to-cp":
+    command => "openssl x509 -in $candlepin_pub_cert -out $candlepin_certs_storage/candlepin-ca.crt; openssl rsa -in $candlepin_private_key -out $candlepin_certs_storage/candlepin-ca.key -passin 'file:/etc/katello/candlepin_ca_password-file' 2>>${katello::params::configure_log_base}/certificates.log",
+    path => "/bin:/usr/bin",
+    creates => ["$candlepin_certs_storage/candlepin-ca.crt", "$candlepin_certs_storage/candlepin-ca.key"],
+    require => [Exec["deploy-candlepin-certificate"], File["${katello::params::configure_log_base}"]],
+    before => Class["apache2::service"]
   } ->
 
   exec { 'install-ca-certificate':
@@ -136,14 +144,6 @@ class certs::config {
     path => "/bin:/usr/bin",
     creates => "$candlepin_pub_cert",
     require => [File["${katello_www_pub_dir}/${candlepin_cert_name}-consumer-latest.noarch.rpm"]],
-    before => Class["apache2::service"]
-  }
-
-  exec { "deploy-candlepin-certificate-to-cp":
-    command => "openssl x509 -in $candlepin_pub_cert -out $candlepin_certs_storage/candlepin-ca.crt; openssl rsa -in $candlepin_private_key -out $candlepin_certs_storage/candlepin-ca.key -passin 'file:/etc/katello/candlepin_ca_password-file' 2>>${katello::params::configure_log_base}/certificates.log",
-    path => "/bin:/usr/bin",
-    creates => ["$candlepin_certs_storage/candlepin-ca.crt", "$candlepin_certs_storage/candlepin-ca.key"],
-    require => [Exec["deploy-candlepin-certificate"], File["${katello::params::configure_log_base}"]],
     before => Class["apache2::service"]
   }
 
