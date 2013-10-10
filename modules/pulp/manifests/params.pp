@@ -18,7 +18,7 @@ class pulp::params {
   $oauth_secret = $katello::params::oauth_secret
 
   #Initial pulp administrative user/pass is admin/random
-  $pulp_user_name = $katello::params::user_name
+  $pulp_user_name = katello_escape_pulp_login($katello::params::user_name)
   $pulp_user_password_file = katello_config_value('pulp_user_password_file')
   $pulp_user_pass = katello_create_read_password($pulp_user_password_file)
 
