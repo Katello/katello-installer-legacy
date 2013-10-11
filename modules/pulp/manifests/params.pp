@@ -23,10 +23,10 @@ class pulp::params {
   $pulp_user_pass = katello_create_read_password($pulp_user_password_file)
 
   #Pulp HTTP Proxy configuration
-  $pulp_proxy_url = $katello::params::proxy_url
-  $pulp_proxy_port = $katello::params::proxy_port
-  $pulp_proxy_user = $katello::params::proxy_user
-  $pulp_proxy_pass = $katello::params::proxy_pass
+  $pulp_proxy_url = katello_null_string($katello::params::proxy_url, true)
+  $pulp_proxy_port = katello_null_string($katello::params::proxy_port, false)
+  $pulp_proxy_user = katello_null_string($katello::params::proxy_user, true)
+  $pulp_proxy_pass = katello_null_string($katello::params::proxy_pass, true)
 
   #database reinitialization flag
   $reset_data = katello_config_value('reset_data')
