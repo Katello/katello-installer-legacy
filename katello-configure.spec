@@ -22,7 +22,7 @@
 %endif
 
 Name:           katello-configure
-Version:        1.5.0
+Version:        1.5.1
 Release:        1%{?dist}
 Summary:        Configuration tool for Katello
 
@@ -178,6 +178,9 @@ chmod +x -R %{buildroot}%{homedir}/upgrade-scripts/*
 %{homedir}/foreman-proxy
 
 %changelog
+* Fri Oct 11 2013 Partha Aji <paji@redhat.com> 1.5.1-1
+- Bumping package versions for 1.5 (paji@redhat.com)
+
 * Fri Oct 11 2013 Partha Aji <paji@redhat.com> 1.4.8-1
 - Merge pull request #55 from daviddavis/temp/20131010125310
   (parthaa@gmail.com)
