@@ -22,7 +22,7 @@
 %endif
 
 Name:           katello-configure
-Version:        1.4.8
+Version:        1.5.0
 Release:        1%{?dist}
 Summary:        Configuration tool for Katello
 
