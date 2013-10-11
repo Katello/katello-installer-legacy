@@ -214,7 +214,11 @@ def _request_option_interactively(param, title, regex, default_value, non_intera
   default_value_ok = default_value.to_s() =~ Regexp.new(regex)
   if non_interactive_value
     if default_value.nil? or not default_value_ok
-      $stderr.puts "Option: [#{title} (--#{param.gsub("_", "-")})] not correctly specified."
+      $stderr.print "Option: [#{title} (--#{param.gsub("_", "-")})] not correctly specified"
+      if param == "user_pass"
+        $stderr.print " or is not secure enough, please choose another password"
+      end
+      $stderr.puts "."
       exit 7
     else
       return default_value
