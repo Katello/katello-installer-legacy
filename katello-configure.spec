@@ -22,7 +22,7 @@
 %endif
 
 Name:           katello-configure
-Version:        1.4.7
+Version:        1.4.8
 Release:        1%{?dist}
 Summary:        Configuration tool for Katello
 
@@ -178,6 +178,20 @@ chmod +x -R %{buildroot}%{homedir}/upgrade-scripts/*
 %{homedir}/foreman-proxy
 
 %changelog
+* Fri Oct 11 2013 Partha Aji <paji@redhat.com> 1.4.8-1
+- Merge pull request #55 from daviddavis/temp/20131010125310
+  (parthaa@gmail.com)
+- Merge pull request #52 from ehelms/bug-902437 (ericdhelms@gmail.com)
+- 1017449: Update the pulp config (daviddavis@redhat.com)
+- Merge pull request #54 from daviddavis/956650 (daviddavis@redhat.com)
+- 956650: Escaping pulp login (daviddavis@redhat.com)
+- Fix race condition (mhulan@redhat.com)
+- Bug 902437: Adding comment pointing users to the proper location to make
+  configuration changes. The default answer file also contains comments to help
+  guide users in generating the proper configuration option structure.
+  (ericdhelms@gmail.com)
+- Fix symlink to candlepin cert (mhulan@redhat.com)
+
 * Fri Sep 27 2013 Partha Aji <paji@redhat.com> 1.4.7-1
 - Script to start foreman only if available (paji@redhat.com)
 - Autobuild f19 packages (paji@redhat.com)
