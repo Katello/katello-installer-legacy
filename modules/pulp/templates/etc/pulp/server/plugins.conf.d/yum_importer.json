@@ -1,0 +1,7 @@
+{
+    "num_threads" : 4,
+    "proxy_host" : <%= scope.lookupvar('pulp::params::pulp_proxy_url') %>,
+    "proxy_port" : <%= scope.lookupvar('pulp::params::pulp_proxy_port') %>,
+    "proxy_username": <%= scope.lookupvar('pulp::params::pulp_proxy_user') %>,
+    "proxy_password": <%= scope.lookupvar('pulp::params::pulp_proxy_pass') %>
+}
