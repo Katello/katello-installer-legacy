@@ -363,7 +363,7 @@ def main_puppet(puppet_cmd, nobars, default_progressbar_title, puppet_logfile_fi
         puppet_logfile.syswrite(time + line.gsub(/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]/, ''))
         puts "Got " + line if ENV['KATELLO_CONFIGURE_DEBUG']
         if nobars
-          if line =~ /debug:/
+          if puppet_debug?(line)
             puts line if debug_stdout
           else
             puts line
@@ -371,16 +371,16 @@ def main_puppet(puppet_cmd, nobars, default_progressbar_title, puppet_logfile_fi
         else
           progress_bar.increment
           if processing_logfile != nil
-            if line =~ /notice:.*executed successfully/
+            if line =~ /notice:.*executed successfully/i
               processing_logfile = nil
-            elsif line =~ /err:/
+            elsif puppet_error?(line)
               puts "\n  Failed, please check [#{processing_logfile}]\n  Report errors using # katello-debug tool."
               processing_logfile = nil
             end
-          elsif line =~ /err:/
+          elsif puppet_error?(line)
             print line
           end
-          if line =~ /debug: Executing \'(.+)/
+          if line =~ /debug: Executing \'(.+)/i
             line_rest = $1
             commands_by_logfiles.keys.each do |logfile|
               if line_rest.index(logfile) != nil
@@ -391,7 +391,7 @@ def main_puppet(puppet_cmd, nobars, default_progressbar_title, puppet_logfile_fi
           end
         end
 
-        if line =~ /err:/
+        if puppet_error?(line)
           seen_err = true
         end
       end
@@ -410,4 +410,12 @@ def main_puppet(puppet_cmd, nobars, default_progressbar_title, puppet_logfile_fi
   if seen_err
     exit_with :error_executing_puppet
   end
+end
+
+def puppet_error?(line)
+ line =~ /err(or)?:/i
+end
+
+def puppet_debug?(line)
+ line =~ /debug:/i
 end

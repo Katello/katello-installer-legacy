@@ -260,4 +260,9 @@ main_puppet(puppet_cmd,
             commands_by_logfiles,
             katello_configuration_files_only ? 'include katello::config::files' : 'include katello')
 
+unless system("/usr/bin/katello-service status &> /dev/null")
+  $stderr.puts "Some services are not running. Check log files for more details."
+  exit_with :error_executing_puppet
+end
+
 exit
