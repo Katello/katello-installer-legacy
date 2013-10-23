@@ -22,7 +22,7 @@
 %endif
 
 Name:           katello-configure
-Version:        1.4.8
+Version:        1.4.9
 Release:        1%{?dist}
 Summary:        Configuration tool for Katello
 
@@ -178,6 +178,9 @@ chmod +x -R %{buildroot}%{homedir}/upgrade-scripts/*
 %{homedir}/foreman-proxy
 
 %changelog
+* Tue Oct 22 2013 Partha Aji <paji@redhat.com> 1.4.9-1
+- Updated qpid package lists to install for f19 & 18 (paji@redhat.com)
+
 * Fri Oct 11 2013 Partha Aji <paji@redhat.com> 1.4.8-1
 - Merge pull request #55 from daviddavis/temp/20131010125310
   (parthaa@gmail.com)
