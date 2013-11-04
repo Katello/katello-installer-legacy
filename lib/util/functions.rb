@@ -29,6 +29,8 @@ ERROR_CODES = {
   :hostname_error => 7,
   :not_root => 8,
   :java_error => 9,
+  :user_not_exists => 10,
+  :group_not_exists => 11,
   :unknown => 127,
 }
 
@@ -282,6 +284,13 @@ rescue Exception => e
   puts "Unable to verify hostname and DNS (#{e}), going on..."
 end
 
+def user_exists?(username)
+  !File.readlines('/etc/passwd').grep(/\A#{username}/).empty?
+end
+
+def group_exists?(groupname)
+  !File.readlines('/etc/group').grep(/\A#{groupname}/).empty?
+end
 
 # remove option from $final_options (and order) hashes (and optionally move
 # it to the temporary hash (used for dangerous options)
