@@ -260,10 +260,26 @@ def check_hostname
   Socket.gethostbyname hostname
   Socket.gethostbyname 'localhost'
   $stderr.puts "WARNING: FQDN is not set!" unless hostname.index '.'
+  # Check reverse DNS against hostname IP address
+  unless ENV['REVERSE_DNS_CORRECT']
+    require 'resolv'
+    hostname_ip = Socket::getaddrinfo(hostname, nil)[0][3]
+    resolved_name = Resolv.getname(hostname_ip)
+    raise Resolv::ResolvError unless hostname != resolved_name
+  end
 rescue SocketError => e
   puts "Error"
   $stderr.puts "Unable to resolve '#{hostname}' or 'localhost'. Check your DNS and /etc/hosts settings."
   exit_with :hostname_error
+rescue Resolv::ResolvError => e
+  puts "Error"
+  $stderr.puts "Reverse DNS entry for '#{hostname_ip}' ('#{hostname}') is not correct. Cannot continue."
+  $stderr.puts "If you are sure that reverse DNS configuration is correct, you can skip this test by"
+  $stderr.puts "setting REVERSE_DNS_CORRECT environment variable. Proceeding with incorrect reverse"
+  $stderr.puts "DNS configuration will lead to corrupt installation."
+  exit_with :hostname_error
+rescue Exception => e
+  puts "Unable to verify hostname and DNS (#{e}), going on..."
 end
 
 
