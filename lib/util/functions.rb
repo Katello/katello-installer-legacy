@@ -267,7 +267,7 @@ def check_hostname
     require 'resolv'
     hostname_ip = Socket::getaddrinfo(hostname, nil)[0][3]
     resolved_name = Resolv.getname(hostname_ip)
-    raise Resolv::ResolvError unless hostname != resolved_name
+    raise Resolv::ResolvError if hostname != resolved_name
   end
 rescue SocketError => e
   puts "Error"
