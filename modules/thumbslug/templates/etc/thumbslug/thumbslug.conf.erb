@@ -6,3 +6,10 @@
 ssl.keystore = <%= scope.lookupvar("thumbslug::params::keystore") %>
 ssl.keystore.password = <%= scope.lookupvar("certs::params::keystore_password") %>
 candlepin.oauth.secret = <%= scope.lookupvar("thumbslug::params::oauth_secret") %>
+<%- unless scope.lookupvar("katello::params::proxy_url") == "NONE" -%>
+cdn.proxy = true
+cdn.proxy.host = <%= scope.lookupvar("katello::params::proxy_url") %>
+cdn.proxy.port = <%= scope.lookupvar("katello::params::proxy_port") unless scope.lookupvar("katello::params::proxy_port") == "NONE" %>
+cdn.proxy.user = <%= scope.lookupvar("katello::params::proxy_user") unless scope.lookupvar("katello::params::proxy_user") == "NONE" %>
+cdn.proxy.password = <%= scope.lookupvar("katello::params::proxy_pass") unless scope.lookupvar("katello::params::proxy_pass") == "NONE" %>
+<%- end -%>
