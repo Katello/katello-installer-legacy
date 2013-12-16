@@ -22,6 +22,10 @@ class pulp::config {
       content => template("pulp/etc/pulp/repo_auth.conf.erb"),
       notify  => Exec["reload-apache2"],
       before => [Class["apache2::service"]];
+    "/etc/pulp/server/plugins.conf.d/puppet_importer.json":
+      content => template("pulp/etc/pulp/server/plugins.conf.d/puppet_importer.json"),
+      notify => Exec["reload-apache2"],
+      before => [Class["apache2::service"]];
     "/etc/pulp/server/plugins.conf.d/yum_importer.json":
       content => template("pulp/etc/pulp/server/plugins.conf.d/yum_importer.json"),
       notify => Exec["reload-apache2"],
