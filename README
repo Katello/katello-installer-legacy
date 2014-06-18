@@ -1,1 +1,5 @@
-echo include katello | puppet --modulepath katello/puppet/modules --libdir katello/puppet/lib
+*** LEGACY INSTALLER *** 
+
+This repository is no longer used but is kept around for historical reasons.
+
+This houses the now dead repository for the *katello-configure* tool
