@@ -1,5 +1,6 @@
 begin
-  require File.expand_path('/usr/share/katello/lib/util/password.rb')
+  prefix = ENV['KATELLO_GIT_CHECKOUT'] || '/usr/share/katello/'
+  require "#{prefix}/lib/util/password"
 rescue LoadError
   STDERR.puts "Katello was not installed on this host - passwords won't be encrypted"
   # define dummy encrypt functions that does nothing

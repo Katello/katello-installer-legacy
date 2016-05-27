@@ -10,7 +10,8 @@
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
 #
 
-PREFIX = ENV['KATELLO_CONFIGURE_PREFIX'] || '/usr/share/katello/install'
+INSTALL_PATH = '/usr/share/katello/install'
+PREFIX       = ENV['KATELLO_INSTALLER_GIT_CHECKOUT'] || INSTALL_PATH
 
 require 'optparse'
 require 'fcntl'
@@ -21,14 +22,16 @@ require 'socket'
 require 'tempfile'
 require 'puppet'
 require 'puppet/util/selinux'
-require "#{PREFIX}/puppet/lib/util/functions.rb"
+require "#{PREFIX}/lib/util/functions"
 
 $stdout.sync = true
 
 default_path = "#{PREFIX}/default-answer-file"
 options_format_path = "#{PREFIX}/options-format-file"
 result_config_path = "/etc/katello/katello-configure.conf"
-puppet_cmd = "puppet apply --modulepath #{PREFIX}/puppet/modules --libdir #{PREFIX}/puppet/lib -v -d"
+puppet_module_path = ENV['KATELLO_INSTALLER_GIT_CHECKOUT'] ? "#{ENV['KATELLO_INSTALLER_GIT_CHECKOUT']}/modules" : "#{PREFIX}/puppet/modules"
+puppet_libdir_path = ENV['KATELLO_INSTALLER_GIT_CHECKOUT'] ? "#{ENV['KATELLO_INSTALLER_GIT_CHECKOUT']}/lib" : "#{PREFIX}/puppet/lib"
+puppet_cmd = "puppet apply --modulepath #{puppet_module_path} --libdir #{puppet_libdir_path} -v -d"
 log_parent_directory = '/var/log/katello'
 default_progressbar_title = 'Katello configuration'
 
@@ -142,11 +145,14 @@ if $default_options_errors != ''
   exit 6
 end
 
-# We will only keep values that are different from the default ones.
-$final_options.each do |key, value|
-  if $default_options[key] == value
-    $final_options.delete(key)
-  end
+if default_path.index(INSTALL_PATH) != 0
+  # The default answer file is _not_ the one under /usr/share/katell/install,
+  # this is the one inside of the git checkout. Hence we must built the final
+  # options using these default values as a starting point.
+  $final_options = $default_options.merge($final_options)
+else
+  # We will only keep values that are different from the default ones.
+  $final_options.delete_if!{ |key, value| $default_options[key] == value }
 end
 
 # Set the deployment to be the relative url
